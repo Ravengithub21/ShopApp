@@ -84,15 +84,15 @@ const selectedCategories = [];
 
 let cartItemCount = 0;
 
-const renderProducts = () => {
+const renderProducts = (array) => {
   let html = "";
-  for (let i = 0; i < products.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     html += `<div class="item space-y-2">
         <div
             class="bg-gray-100 flex justify-center relative overflow-hidden group cursor-pointer border rounded-xl"
         > 
           <img
-            src="${products[i].url}"
+            src="${array[i].url}"
             alt=""
             class="w-full h-full object-cover"
           />
@@ -102,11 +102,49 @@ const renderProducts = () => {
             Add To Cart
           </button>
         </div>
-        <p class="text-xl">${products[i].name}</p>
-        <strong>${products[i].price}</strong>
+        <p class="text-xl">${array[i].name}</p>
+        <strong>${array[i].price}</strong>
       </div>`;
   }
   productsWrapper.innerHTML = html;
 };
 
-renderProducts();
+renderProducts(products);
+
+function filterByCategory() {
+  const checkedValues = Array.from(checkBoxes)
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => checkbox.value);
+
+  if (checkedValues.length > 0) {
+    const newProduct = products.filter((product) =>
+      checkedValues.includes(product.category)
+    );
+    console.log(newProduct);
+
+    renderProducts(newProduct);
+  } else {
+    renderProducts(products);
+  }
+}
+
+checkBoxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", filterByCategory);
+});
+
+// const categories = ["Smartphones", "cameras", "TV"]
+
+// function renderCathegories() {
+//     let html = ""
+//     for (let i = 0; i < categories.length; i++) {
+//         html += `<div>
+//         <input
+//               type="checkbox"
+//               class="check"
+//               value="${categories[i]}"
+//               onClick="filterByCategory()"
+//             />
+//         </div>`
+
+//     }
+// }
