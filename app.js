@@ -115,7 +115,6 @@ function filterByCategory() {
   const checkedValues = Array.from(checkBoxes)
     .filter((checkbox) => checkbox.checked)
     .map((checkbox) => checkbox.value);
-
   if (checkedValues.length > 0) {
     const newProduct = products.filter((product) =>
       checkedValues.includes(product.category)
