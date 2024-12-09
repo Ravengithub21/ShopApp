@@ -76,11 +76,10 @@ const products = [
 // Select DOM Elements
 
 const productsWrapper = document.getElementById("products-wrapper");
-const checkBoxes = document.querySelectorAll(".check");
 const filtersContainer = document.getElementById("filters-container");
 const searchInput = document.getElementById("search");
 const cartCount = document.getElementById("cart-count");
-const selectedCategories = [];
+const categories = ["Smartphones", "Games", "Televisions", "Cameras"];
 
 let cartItemCount = 0;
 
@@ -111,39 +110,36 @@ const renderProducts = (array) => {
 
 renderProducts(products);
 
-function filterByCategory() {
-  const checkedValues = Array.from(checkBoxes)
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.value);
-  if (checkedValues.length > 0) {
-    const newProduct = products.filter((product) =>
-      checkedValues.includes(product.category)
-    );
-    console.log(newProduct);
+function renderCheckBoxes() {
+  let html = "";
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    html += `<div>
+            <input
+              onchange="filterCheckBoxes(${categories[i]})" 
+              type="checkbox"
+              class="check"
+              value="${categories[i]}"
+              id="${categories[i]}"
+              
+            />
+            <label for="${categories[i]}">${categories[i]}</label>
+          </div>`;
+  }
+  filtersContainer.innerHTML = html;
+}
 
+renderCheckBoxes();
+
+function filterCheckBoxes(checkboxValue) {
+  const isChecked = checkboxValue.checked;
+  const category = checkboxValue.value.toLowerCase();
+  if (isChecked) {
+    const newProduct = products.filter((product) =>
+      product.category.toLowerCase().includes(category)
+    );
     renderProducts(newProduct);
   } else {
     renderProducts(products);
   }
 }
-
-checkBoxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", filterByCategory);
-});
-
-// const categories = ["Smartphones", "cameras", "TV"]
-
-// function renderCathegories() {
-//     let html = ""
-//     for (let i = 0; i < categories.length; i++) {
-//         html += `<div>
-//         <input
-//               type="checkbox"
-//               class="check"
-//               value="${categories[i]}"
-//               onClick="filterByCategory()"
-//             />
-//         </div>`
-
-//     }
-// }
