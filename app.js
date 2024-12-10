@@ -80,8 +80,12 @@ const filtersContainer = document.getElementById("filters-container");
 const searchInput = document.getElementById("search");
 const cartCount = document.getElementById("cart-count");
 const categories = ["Smartphones", "Games", "Televisions", "Cameras"];
+let itemCartIndex = 1;
+const cart = [];
+const iconz = document.querySelector(".iconz");
+const submitBtn = document.querySelector(".status");
 
-let cartItemCount = 0;
+let cartItemCount = 1;
 
 const renderProducts = (array) => {
   let html = "";
@@ -97,6 +101,9 @@ const renderProducts = (array) => {
           />
           <button
             class="status bg-black text-white absolute bottom-0 left-0 right-0 text-center py-2 translate-y-full transition group-hover:translate-y-0"
+            onClick="countCart()"
+            id="id"
+            
           >
             Add To Cart
           </button>
@@ -141,5 +148,18 @@ function filterCheckBoxes(checkboxValue) {
     renderProducts(newProduct);
   } else {
     renderProducts(products);
+  }
+}
+
+function countCart() {
+  let html = "";
+  html += `${itemCartIndex}</small`;
+  console.log(cart);
+  console.log(itemCartIndex);
+  iconz.innerHTML = html;
+  if (itemCartIndex < 12) {
+    itemCartIndex++;
+  } else {
+    itemCartIndex = 0;
   }
 }
